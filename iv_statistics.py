@@ -14,7 +14,6 @@ from sklearn.metrics import (
     precision_score,
     roc_auc_score,
 )
-from IPython.display import display
 from scipy.stats import ttest_ind, chi2_contingency, t, pointbiserialr, mannwhitneyu
 from sklearn.base import BaseEstimator, TransformerMixin
 
@@ -134,26 +133,6 @@ def tune_hyperparameters(
     )
     search.fit(X_train, y_train)
     return search
-
-
-def show_top_results(search, dimensions, top_n=10):
-    """
-    Display the top N hyperparameter tuning results sorted by score.
-    Parameters:
-        search (RandomizedSearchCV): Fitted RandomizedSearchCV object.
-        dimensions (list): List of hyperparameter names to display.
-        top_n (int): Number of top rows to display. Default is 10.
-    Returns:
-        results_df (pd.DataFrame): Full DataFrame of cross-validation results.
-    """
-    results_df = pd.DataFrame(search.cv_results_)
-    top_results = (
-        results_df[dimensions + ["mean_test_score"]]
-        .sort_values(by="mean_test_score", ascending=False)
-        .head(top_n)
-    )
-    display(top_results)
-    return results_df
 
 
 def plot_parallel_coordinates(results_df, dimensions):
